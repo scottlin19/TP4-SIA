@@ -4,16 +4,14 @@ import numpy as np
 import json
 from sklearn.preprocessing import StandardScaler
 
-
 with open("config.json") as f:
     config = json.load(f)
 
 learning_rate = config["learning_rate"]
-epochs_amount = config["epochs"]
+epochs_amount = config["epochs_amount"]
 
 def load_csv(): 
-    #return np.loadtxt(open("files/europe.csv", "rb"), delimiter=",", skiprows=1, usecols=np.arange(1,7))
-
+    
     df = pd.read_csv("files/europe.csv", names=['Country','Area','GDP','Inflation','Life.expect','Military','Pop.growth','Unemployment'],skiprows=[0])
     
     features = ['Area','GDP','Inflation','Life.expect','Military','Pop.growth','Unemployment']
