@@ -17,7 +17,7 @@ class OjaPerceptron:
                 
             for input in self.training_set.T: # iterate by columns
                 # print(input)
-                y = np.inner(input, w) # inner product: sum (input[i]*w_i) 
+                y = np.inner(input, w) # inner product: sum(x*w) 
                 
                 delta_w = self.learning_rate * y * (input - y*w) # eta* (y*x - y^2 * w ) = eta * y(x - yw)
 
@@ -31,5 +31,4 @@ class OjaPerceptron:
 
 def run_oja(training_set, learning_rate, epochs_amount):
     oja = OjaPerceptron(training_set, learning_rate)
-    oja.train(epochs_amount)
-    pass
+    return oja.train(epochs_amount)
