@@ -1,7 +1,8 @@
 import math
 import random
 import numpy as np
-
+import matplotlib.pyplot as plt
+import seaborn as sns
 # initialize k, eta, w, r
 # select row 
 # search winning neuron 
@@ -41,11 +42,11 @@ class Kohonen:
     def train(self,epochs):
         print(self.neurons)
         tr_length = len(self.training_set)
-        activations = [[0] * self.grid_dimension] * self.grid_dimension
+        activations = np.zeros((self.grid_dimension, self.grid_dimension))
 
         for i in range(epochs):
             aux_training = self.training_set.copy()
-            self.learning_rate = 1  # Cada vez que entramos a la iteracion, reiniciamos el eta
+            self.learning_rate = 1                                          # restart el eta
             aux_radius = self.radius
             while len(aux_training) > 0: 
                 i_x = np.random.randint(0, len(aux_training))               # get random input
@@ -54,18 +55,23 @@ class Kohonen:
 
                 
                 (x,y,winner_neuron) = self.get_winner_neuron(input_)        # search winner neuron 
-                activations[x,y] += 1
+                activations[x][y] += 1
                 self.update_weights(x,y,winner_neuron,input_)               # update neighbours and curr neuron weights 
                 
                 if(aux_radius > 1):
                     aux_radius -= 1
                 self.learning_rate = 1/(tr_length - len(aux_training))
          
-        # Graficar mapa de calor con activaciones
-        
+
         # Graficar matriz U  
         print("---------------- END ------------------")
         print(self.neurons)
+
+        # Graficar mapa de calor con activaciones
+        print(activations)
+        ax = sns.heatmap(activations, linewidth=0.5)
+        # plt.imshow(activations, cmap='hot', interpolation='nearest')
+        plt.show()
      
     def update_weights(self,x,y,winner_neuron,input_):
         # Iterar por todos las neuronas
