@@ -73,7 +73,7 @@ class Kohonen:
 
         fig, (ax1,ax2) = plt.subplots(1,2)
         aux = np.arange(self.grid_dimension)
-        im1,cbar1 = self.heatmap(activations,ax1,"Entries amount",aux,aux,"magma_r")
+        im1,cbar1 = self.heatmap(activations,ax1,"Entries amount",aux,aux,cmap="magma_r")
         im2,cbar2 = self.heatmap(umatrix,ax2,"Average euclidian distance",aux,aux,cmap="binary")
         plt.show()
 
