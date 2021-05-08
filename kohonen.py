@@ -20,7 +20,7 @@ class KohonenNeuron:
 
 
 class Kohonen:
-    def __init__(self, training_set, grid_dimension, radius, learning_rate=1):
+    def __init__(self, training_set, grid_dimension, radius, input_weights, learning_rate=1):
         self.training_set = training_set
         self.input_dimension = len(training_set[0])
         self.grid_dimension = grid_dimension
@@ -30,17 +30,22 @@ class Kohonen:
         #     self.radius = radius[1]
         # else: 
         #     self.radius = grid_dimension
-        self.radius = radius    
+        # self.radius = radius    
+        self.radius = grid_dimension
         self.neurons = [None] * grid_dimension
         #initialize weights 
         for i in range(self.grid_dimension):
             self.neurons[i] = [None] * grid_dimension
             for j in range(self.grid_dimension):
-                w = np.random.default_rng().uniform(0,1,self.input_dimension) #TODO cambiar a la otra opcion con un flag
+                if input_weights == False:
+                    w = np.random.default_rng().uniform(0,1,self.input_dimension) #TODO cambiar a la otra opcion con un flag
+                else: 
+                    i_x = np.random.randint(0, len(self.training_set))               # get random input
+                    input_ = self.training_set[i_x]
+                    w = input_.copy()
                 self.neurons[i][j] = KohonenNeuron(w)
 
     def train(self,epochs):
-        print(self.neurons)
         tr_length = len(self.training_set)
         activations = np.zeros((self.grid_dimension, self.grid_dimension))
 
@@ -65,13 +70,12 @@ class Kohonen:
 
         # Graficar matriz U  
         print("---------------- END ------------------")
-        print(self.neurons)
 
         # Graficar mapa de calor con activaciones
         print(activations)
         ax = sns.heatmap(activations, linewidth=0.5)
         # plt.imshow(activations, cmap='hot', interpolation='nearest')
-        plt.show()
+        # plt.show()
      
     def update_weights(self,x,y,winner_neuron,input_):
         # Iterar por todos las neuronas
@@ -82,6 +86,7 @@ class Kohonen:
             for j,neuron in enumerate(row): 
                 if self.input_distance((i,j), (x,y)) <= self.radius: #x,y es la pos de la winner neuron -->  es vecina
                     neuron.weights += self.learning_rate * (input_ - neuron.weights)
+                    print(f"New wight for neuron({i},{j}): {neuron.weights}")
 
     def get_winner_neuron(self,input_):
         to_return = None # neuron position in output grid 
@@ -94,6 +99,8 @@ class Kohonen:
                     min_dist = dist
                     winner_neuron = self.neurons[i][j]
                     to_return = (i,j,winner_neuron)
+
+        print(f"Returning - x: {to_return[0]} - y: {to_return[1]}")
         return to_return
 
             
@@ -101,6 +108,6 @@ class Kohonen:
         dif_squares = [(v1 - v2)**2 for v1,v2 in zip(p1,p2)]
         return math.sqrt(sum(dif_squares))
     
-def run_kohonen(training_set, grid_dimension, radius,learning_rate,epochs):
-    kohonen = Kohonen(training_set, grid_dimension, radius,learning_rate)
+def run_kohonen(training_set, grid_dimension, radius,learning_rate,epochs, use_input_as_weights):
+    kohonen = Kohonen(training_set, grid_dimension, radius,use_input_as_weights,learning_rate)
     kohonen.train(epochs)

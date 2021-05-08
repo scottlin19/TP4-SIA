@@ -5,12 +5,12 @@
             "learning_rate": 0.01
         },
         "kohonen": {
-            "epochs_amount": 100, 
+            "epochs_amount": 2, 
             "learning_rate": 0.01,
             "grid_dimension": 8, 
             "radius_constant": false,
-            "radius_value": 6
-
+            "radius_value": 8,
+            "use_input_as_weights": true
         }
     },
     "ej2":{

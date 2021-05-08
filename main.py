@@ -33,8 +33,11 @@ if exercise == '1':
         radius_value = config["ej1"]["kohonen"]["radius_value"]
         learning_rate = config["ej1"]["kohonen"]["learning_rate"]
         epochs_amount = config["ej1"]["kohonen"]["epochs_amount"]
-        run_kohonen(training_set, grid_dimension, radius_value, learning_rate, epochs_amount)
+        use_input_as_weights = config["ej1"]["kohonen"]["use_input_as_weights"]
+        run_kohonen(training_set, grid_dimension, radius_value, learning_rate, epochs_amount,use_input_as_weights)
     if type_ == '2':
+        learning_rate = config["ej1"]["oja"]["learning_rate"]
+        epochs_amount = config["ej1"]["oja"]["epochs_amount"]
         w = run_oja(training_set, learning_rate, epochs_amount)
         print(w)
 
