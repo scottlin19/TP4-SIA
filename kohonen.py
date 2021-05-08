@@ -67,17 +67,29 @@ class Kohonen:
                 if(aux_radius > 1):
                     aux_radius -= 1
                 self.learning_rate = 1/(tr_length - len(aux_training))
-         
+    
+        print("---------------- END ------------------")    
+        umatrix = self.make_u_matrix()     
 
-        # Graficar matriz U  
-        print("---------------- END ------------------")
+        fig, (ax1,ax2) = plt.subplots(1,2)
+        aux = np.arange(self.grid_dimension)
+        im1,cbar1 = self.heatmap(activations,ax1,"Entries amount",aux,aux,"magma_r")
+        im2,cbar2 = self.heatmap(umatrix,ax2,"Average euclidian distance",aux,aux,cmap="binary")
+        plt.show()
 
-        # Graficar mapa de calor con activaciones
-        print(activations)
-        ax = sns.heatmap(activations, linewidth=0.5)
-        # plt.imshow(activations, cmap='hot', interpolation='nearest')
-        # plt.show()
-     
+    def heatmap(self,data,ax,cbar_label,row_label,col_label,cmap=""):
+        im = ax.imshow(data,cmap=cmap)
+        cbar = ax.figure.colorbar(im,ax=ax)
+        cbar.ax.set_ylabel(cbar_label, rotation=-90, va="bottom")
+        # We want to show all ticks...
+        aux = np.arange(self.grid_dimension)
+        ax.set_xticks(np.arange(data.shape[1]))
+        ax.set_yticks(np.arange(data.shape[0]))
+        # ... and label them with the respective list entries
+        ax.set_xticklabels(row_label)
+        ax.set_yticklabels(col_label)
+        return im,cbar
+
     def update_weights(self,x,y,winner_neuron,input_,radius):
         # Iterar por todos las neuronas
             # Calcular su distancia al ganador 
@@ -96,13 +108,13 @@ class Kohonen:
             for j,neuron in enumerate(row):
                 
                 dist = self.input_distance(input_, neuron.weights)
-                print(f"neuron({i},{j}): distance {dist}")
+                # print(f"neuron({i},{j}): distance {dist}")
                 if dist < min_dist: 
                     min_dist = dist
                     winner_neuron = self.neurons[i][j]
                     to_return = (i,j,winner_neuron)
 
-        print(f"Returning - x: {to_return[0]} - y: {to_return[1]}")
+        # print(f"Returning - x: {to_return[0]} - y: {to_return[1]}")
         return to_return
 
             
@@ -110,6 +122,19 @@ class Kohonen:
         dif_squares = [(v1 - v2)**2 for v1,v2 in zip(p1,p2)]
         return math.sqrt(sum(dif_squares))
     
+    def make_u_matrix(self):
+        u_matrix = np.zeros((self.grid_dimension, self.grid_dimension))
+        for i in range(self.grid_dimension):
+            for j in range(self.grid_dimension):
+                # Check all 4 directions assuming radius = 1
+                directions = list(filter(lambda direction: direction[0] >= 0 and direction[0] < self.grid_dimension and direction[1] >= 0 and direction[1] < self.grid_dimension,[(i-1,j), (i+1,j),(i,j-1), (i,j+1)]))
+
+                for direction in directions:
+                    u_matrix[i][j] += self.input_distance(self.neurons[i][j].weights,self.neurons[direction[0]][direction[1]].weights)
+                u_matrix[i][j] /= len(directions)
+        return u_matrix
+
+
 def run_kohonen(training_set, grid_dimension, radius,learning_rate,epochs, use_input_as_weights):
     kohonen = Kohonen(training_set, grid_dimension, radius,use_input_as_weights,learning_rate)
     kohonen.train(epochs)
