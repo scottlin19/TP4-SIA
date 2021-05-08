@@ -15,7 +15,7 @@ class OjaPerceptron:
     
         for epochs in range(epochs_amount):
                 
-            for input in self.training_set: # iterate by columns 
+            for input in self.training_set: # iterate by rows 
                
                 y = np.inner(input, w)      # inner product: sum(x*w) 
                 
