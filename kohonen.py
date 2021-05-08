@@ -53,6 +53,7 @@ class Kohonen:
             aux_training = self.training_set.copy()
             self.learning_rate = 1                                          # restart el eta
             aux_radius = self.radius
+            print(f"---------- EPOCH {i} ----------")
             while len(aux_training) > 0: 
                 i_x = np.random.randint(0, len(aux_training))               # get random input
                 input_ = aux_training[i_x]
@@ -61,7 +62,7 @@ class Kohonen:
                 
                 (x,y,winner_neuron) = self.get_winner_neuron(input_)        # search winner neuron 
                 activations[x][y] += 1
-                self.update_weights(x,y,winner_neuron,input_)               # update neighbours and curr neuron weights 
+                self.update_weights(x,y,winner_neuron,input_,aux_radius)               # update neighbours and curr neuron weights 
                 
                 if(aux_radius > 1):
                     aux_radius -= 1
@@ -77,16 +78,16 @@ class Kohonen:
         # plt.imshow(activations, cmap='hot', interpolation='nearest')
         # plt.show()
      
-    def update_weights(self,x,y,winner_neuron,input_):
+    def update_weights(self,x,y,winner_neuron,input_,radius):
         # Iterar por todos las neuronas
             # Calcular su distancia al ganador 
             # Si dist < R: cambiar peso (es vecina)
             # Sino nada
         for i,row in enumerate(self.neurons):
             for j,neuron in enumerate(row): 
-                if self.input_distance((i,j), (x,y)) <= self.radius: #x,y es la pos de la winner neuron -->  es vecina
+                if self.input_distance((i,j), (x,y)) <= radius: #x,y es la pos de la winner neuron -->  es vecina
                     neuron.weights += self.learning_rate * (input_ - neuron.weights)
-                    print(f"New wight for neuron({i},{j}): {neuron.weights}")
+                    # print(f"New wight for neuron({i},{j}): {neuron.weights}")
 
     def get_winner_neuron(self,input_):
         to_return = None # neuron position in output grid 
@@ -95,6 +96,7 @@ class Kohonen:
             for j,neuron in enumerate(row):
                 
                 dist = self.input_distance(input_, neuron.weights)
+                print(f"neuron({i},{j}): distance {dist}")
                 if dist < min_dist: 
                     min_dist = dist
                     winner_neuron = self.neurons[i][j]
