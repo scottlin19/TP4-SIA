@@ -2,22 +2,22 @@
     "ej1": {
         "file_path": "files/europe.csv",
         "oja":{
-            "epochs_amount": 100, 
-            "learning_rate": 0.01
+            "epochs_amount": 1000, 
+            "learning_rate": 0.0001
         },
         "kohonen": {
             "epochs_amount": 100, 
-            "learning_rate": 0.01,
-            "grid_dimension": 4, 
+            "learning_rate": 0.1,
+            "grid_dimension": 8, 
             "radius_constant": false,
-            "radius_value": 4,
+            "radius_value": 8,
             "use_input_as_weights": true
         }
     },
     "ej2":{
         "hopfield": {
-            "noise_probability": 0, 
-            "pattern_to_add_noise": "J",
+            "noise_probability": 0.6, 
+            "pattern_to_add_noise": "K",
             "file_path": "files/letters.txt"
         }
     }

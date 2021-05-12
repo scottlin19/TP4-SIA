@@ -51,8 +51,11 @@ def run_hopfield(stored_patterns, unknown_pattern):
     found, pattern = hopfield.train(unknown_pattern) 
     if found: 
         print(f"Pattern was found:\n{pattern}")
+        # return found,stored_patterns.index(pattern.tolist())
     else:
         print(f"Pattern NOT found, final pattern:\n{pattern}")
+    # return found,-1
+    
     
 def pretty_print(pattern,length):
     print(f"Current state: {pattern}")

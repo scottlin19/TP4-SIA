@@ -1,6 +1,7 @@
 import math
 import random
 import numpy as np
+import matplotlib.pyplot as plt
 
 class OjaPerceptron:
 
@@ -28,6 +29,22 @@ class OjaPerceptron:
         return w / norm  # PC1
 
 
-def run_oja(training_set, learning_rate, epochs_amount):
+def run_oja(training_set, learning_rate, epochs_amount,countries):
     oja = OjaPerceptron(training_set, learning_rate)
-    return oja.train(epochs_amount)
+    pca1 = oja.train(epochs_amount)
+    print(f"Oja outputed PCA1: {pca1}")
+    countries_pca1 = [np.inner(pca1,training_set[i]) for i in range(len(training_set))]
+    libray_pca1 = [0.12487390183337656,-0.5005058583604993,0.4065181548118897,-0.4828733253002008,0.18811161613179747,-0.475703553912758,0.27165582007504635]
+    countries_library_pca1 = [np.inner(libray_pca1,training_set[i]) for i in range(len(training_set))]
+    fig,(ax1,ax2) = plt.subplots(1,2)
+    bar1 = ax1.bar(countries,countries_pca1)
+    bar2 = ax2.bar(countries,countries_library_pca1)
+    ax1.set_ylabel('PCA1')
+    ax1.set_title('PCA1 per country using Oja')
+    ax2.set_ylabel('PCA1')
+    ax2.set_title('PCA1 per country using Sklearn')
+    ax1.set_xticks(range(len(countries)))
+    ax2.set_xticks(range(len(countries)))
+    ax1.set_xticklabels(countries, rotation=90)
+    ax2.set_xticklabels(countries, rotation=90)
+    plt.show()

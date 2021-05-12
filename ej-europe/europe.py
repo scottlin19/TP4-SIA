@@ -16,7 +16,7 @@ countries = df['Country'].tolist()
 # Separating out the features
 x = df.loc[:, features].values
 
-#x = StandardScaler().fit_transform(x)
+x = StandardScaler().fit_transform(x)
 
 def get_mean(x,countries):
    for i,val in enumerate(x):

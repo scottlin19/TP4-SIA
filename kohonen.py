@@ -2,7 +2,7 @@ import math
 import random
 import numpy as np
 import matplotlib.pyplot as plt
- 
+import operator
 # initialize k, eta, w, r
 # select row 
 # search winning neuron 
@@ -51,9 +51,9 @@ class Kohonen:
 
         for i in range(epochs):
             aux_training = self.training_set.copy()
-            self.learning_rate = 1                                          # restart el eta
+            self.learning_rate = 1                                          # restart eta
             aux_radius = self.radius
-            print(f"---------- EPOCH {i} ----------")
+            #print(f"---------- EPOCH {i} ----------")
             while len(aux_training) > 0: 
                 i_x = np.random.randint(0, len(aux_training))               # get random input
                 input_ = aux_training[i_x]
@@ -68,17 +68,26 @@ class Kohonen:
                     aux_radius -= 1
                 self.learning_rate = 1/(tr_length - len(aux_training))
     
-        print("---------------- END ------------------")    
+        #print("---------------- END ------------------")    
         umatrix = self.make_u_matrix()     
 
-        fig, (ax1,ax2) = plt.subplots(1,2)
+        fig, (ax1,ax2,ax3) = plt.subplots(1,3)
         aux = np.arange(self.grid_dimension)
-        im1,cbar1 = self.heatmap(activations,ax1,"Entries amount",aux,aux,cmap="magma_r")
-        im2,cbar2 = self.heatmap(umatrix,ax2,"Average euclidian distance",aux,aux,cmap="binary")
-        plt.show()
+        im1,cbar1 = self.heatmap(activations,ax1,"Entries amount","Entries per neuron",aux,aux,cmap="magma_r")
+        print(activations)
+        im2,cbar2 = self.heatmap(umatrix,ax2,"Average euclidian distance","Average euclidian distance per neuron",aux,aux,cmap="binary")
+        last_activations = np.zeros((self.grid_dimension, self.grid_dimension))
+        to_return = []
+        for entry in self.training_set:
+            (i,j,winner) = self.get_winner_neuron(entry)
+            to_return.append((i,j,winner))
+            last_activations[i][j] += 1
+        im3,cbar3 = self.heatmap(last_activations,ax3,"Entries amount","Final entries per neuron",aux,aux,cmap="magma_r")
+        return to_return
 
-    def heatmap(self,data,ax,cbar_label,row_label,col_label,cmap=""):
+    def heatmap(self,data,ax,cbar_label,title,row_label,col_label,cmap=""):
         im = ax.imshow(data,cmap=cmap)
+        ax.set_title(title)
         cbar = ax.figure.colorbar(im,ax=ax)
         cbar.ax.set_ylabel(cbar_label, rotation=-90, va="bottom")
         # We want to show all ticks...
@@ -135,6 +144,14 @@ class Kohonen:
         return u_matrix
 
 
-def run_kohonen(training_set, grid_dimension, radius,learning_rate,epochs, use_input_as_weights):
+def run_kohonen(training_set, grid_dimension, radius,learning_rate,epochs, use_input_as_weights,countries):
     kohonen = Kohonen(training_set, grid_dimension, radius,use_input_as_weights,learning_rate)
-    kohonen.train(epochs)
+    last_activations = kohonen.train(epochs)
+    country_activations = []
+    for country,activations in zip(countries,last_activations):
+        country_activations.append((country, *activations))
+    country_activations = sorted(country_activations, key = operator.itemgetter(1, 2))
+
+    for country_activation in country_activations:
+        print(f"Country: {country_activation[0]} activated neuron({country_activation[1]},{country_activation[2]})")
+    plt.show()

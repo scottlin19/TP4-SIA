@@ -1,5 +1,5 @@
 import pandas as pd
-import json, csv
+import csv
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 
@@ -10,7 +10,7 @@ def load_csv(file_path,attributes):
     features = attributes[1:]
     x = df.loc[:, features].values
 
-    return StandardScaler().fit_transform(x) #scale features 
+    return (df.loc[:,attributes[0]].values,StandardScaler().fit_transform(x)) #scale features 
 
 def store_patterns(file_path): 
     rows_per_entry = 5
@@ -64,7 +64,7 @@ def letter_to_index_mapper(letter):
         return 0
     elif letter == "E":
         return 1
-    elif letter == "S":
+    elif letter == "K":
         return 2
     elif letter == "N":
         return 3
