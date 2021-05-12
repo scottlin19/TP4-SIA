@@ -2,30 +2,20 @@ from oja import run_oja
 from kohonen import run_kohonen
 import pandas as pd
 import numpy as np
-import json
+import json, csv
 from sklearn.preprocessing import StandardScaler
+from hopfield import run_hopfield
+import utils
 
 with open("config.json") as f:
-    config = json.load(f)
-
-# learning_rate = config["learning_rate"]
-# epochs_amount = config["epochs_amount"]
-
-
-def load_csv(): 
-    
-    df = pd.read_csv("files/europe.csv", names=['Country','Area','GDP','Inflation','Life.expect','Military','Pop.growth','Unemployment'],skiprows=[0])
-    
-    features = ['Area','GDP','Inflation','Life.expect','Military','Pop.growth','Unemployment']
-    x = df.loc[:, features].values
-
-    return StandardScaler().fit_transform(x) #scale features 
+    config = json.load(f) 
+              
 
 exercise = input('Enter the exercise (possible values: 1,2): ')
 
 if exercise == '1':
     
-    training_set = load_csv()
+    training_set = utils.load_csv("files/europe.csv",['Country','Area','GDP','Inflation','Life.expect','Military','Pop.growth','Unemployment'])
 
     type_ = input('Select \'1\' for Kohonen or \'2\' for Oja: ')
     if type_ == '1':
@@ -35,10 +25,21 @@ if exercise == '1':
         epochs_amount = config["ej1"]["kohonen"]["epochs_amount"]
         use_input_as_weights = config["ej1"]["kohonen"]["use_input_as_weights"]
         run_kohonen(training_set, grid_dimension, radius_value, learning_rate, epochs_amount,use_input_as_weights)
+        
     if type_ == '2':
         learning_rate = config["ej1"]["oja"]["learning_rate"]
         epochs_amount = config["ej1"]["oja"]["epochs_amount"]
         w = run_oja(training_set, learning_rate, epochs_amount)
         print(w)
 
+elif exercise == '2': 
+
+    stored_patterns = utils.store_patterns('files/letters.txt')
+    unknown_pattern = utils.get_unknown_pattern(stored_patterns,0.3)
+
+    run_hopfield(stored_patterns,unknown_pattern)
+    
+else : 
+    print("Invalid Input") 
+    exit 
 

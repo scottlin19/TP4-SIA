@@ -2,7 +2,7 @@ import math
 import random
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
+ 
 # initialize k, eta, w, r
 # select row 
 # search winning neuron 
