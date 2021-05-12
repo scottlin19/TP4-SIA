@@ -13,8 +13,8 @@ with open("config.json") as f:
 exercise = input('Enter the exercise (possible values: 1,2): ')
 
 if exercise == '1':
-    
-    training_set = utils.load_csv("files/europe.csv",['Country','Area','GDP','Inflation','Life.expect','Military','Pop.growth','Unemployment'])
+    file_path = config["ej1"]["file_path"]
+    training_set = utils.load_csv(file_path,['Country','Area','GDP','Inflation','Life.expect','Military','Pop.growth','Unemployment'])
 
     type_ = input('Select \'1\' for Kohonen or \'2\' for Oja: ')
     if type_ == '1':
@@ -35,12 +35,12 @@ elif exercise == '2':
 
     noise_probability = config["ej2"]["hopfield"]["noise_probability"]
     pattern_to_add_noise = config["ej2"]["hopfield"]["pattern_to_add_noise"]
-    stored_patterns = utils.store_patterns('files/letters.txt')
-    unknown_pattern = utils.get_unknown_pattern(stored_patterns, noise_proability)
-
+    file_path = config["ej2"]["hopfield"]["file_path"]
+    stored_patterns = utils.store_patterns(file_path)
+    unknown_pattern = utils.get_unknown_pattern(stored_patterns,noise_probability,pattern_to_add_noise)
     run_hopfield(stored_patterns,unknown_pattern)
     
 else : 
     print("Invalid Input") 
-    exit 
+    exit() 
 

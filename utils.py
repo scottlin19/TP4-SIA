@@ -33,16 +33,39 @@ def store_patterns(file_path):
 
     return data
 
-def get_unknown_pattern(stored_patterns, probability): 
-    # 1 --> 0.2 --> -1
-    # i_x = np.random.randint(0, len(stored_patterns))
-    unknown_pattern = stored_patterns[0].copy()
+def get_unknown_pattern(stored_patterns, probability, letter): 
+     
+    if letter == -1: 
+        i_x = np.random.randint(0, len(stored_patterns))
+    else: 
+        i_x = letter_to_index_mapper(letter)
+        if i_x == -1: 
+            print("Invalid letter")
+            exit()
+    count = 0
+    unknown_pattern = stored_patterns[i_x].copy()
     print(unknown_pattern)
     for i in range(len(unknown_pattern)): 
         if( probability >= np.random.uniform(0,1)): 
-            if(unknown_pattern[i] == 1): 
-               unknown_pattern[i] = -1
-            else: 
-                unknown_pattern[i] = 1 
+            # if(unknown_pattern[i] == 1): 
+            #    unknown_pattern[i] = -1
+            # else: 
+            #     unknown_pattern[i] = 1 
+            # count += 1
+            if(unknown_pattern[i] == -1): 
+               unknown_pattern[i] = 1
+               count += 1
     print(unknown_pattern)
-    return unknown_pattern           
+    print(f"Modifications: {count}\n")
+    return unknown_pattern
+
+def letter_to_index_mapper(letter):
+    if letter == "J":
+        return 0
+    elif letter == "E":
+        return 1
+    elif letter == "S":
+        return 2
+    elif letter == "N":
+        return 3
+    return -1

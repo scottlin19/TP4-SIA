@@ -1,5 +1,6 @@
 {
     "ej1": {
+        "file_path": "files/europe.csv",
         "oja":{
             "epochs_amount": 100, 
             "learning_rate": 0.01
@@ -15,8 +16,9 @@
     },
     "ej2":{
         "hopfield": {
-            "noise_probability": 0.3, 
-            "pattern_to_add_noise": "E"
+            "noise_probability": 0, 
+            "pattern_to_add_noise": "J",
+            "file_path": "files/letters.txt"
         }
     }
 }
