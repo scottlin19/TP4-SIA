@@ -31,18 +31,17 @@ class Hopfield:
         
     def train(self,unknown_pattern):
         states = np.array(unknown_pattern)
+        print(pretty_print(states,5))
         prev_states = np.zeros((25,), dtype=int)
         # Iterate until a steady state is reached
         while not np.array_equal(states, prev_states):
-            print('while')
+            # print('while')
             prev_states = states
             states = self.activations(states)
+            print(pretty_print(states,5))
         
         # found pattern 
         for stored in self.stored_patterns:
-            print(np.array_equal(states, stored))
-            print(stored)
-            print(states)
             if np.array_equal(states, stored):
                 return (True,stored)    # associated pattern 
         return (False,states)           # spurious state  
@@ -52,15 +51,13 @@ class Hopfield:
         ret = []
         for i in range(self.pattern_dimension):
             excited_state = np.inner(self.w[i], states)   #s[i] = w[i][j] * s[j]
-            print("EXCITED")
-            print(excited_state)
+            # print("EXCITED")
+            # print(excited_state)
             if( excited_state != 0): 
-                print(f"was: {states[i]}, is: {self.step(excited_state)}")
+                # print(f"was: {states[i]}, is: {self.step(excited_state)}")
                 ret.append(self.step(excited_state))
             else: 
                 ret.append(states[i]) # if h = 0 previous state 
-        print("ret")
-        print(ret)
         return np.array(ret)
 
     def step(self,n):
@@ -77,4 +74,6 @@ def run_hopfield(stored_patterns, unknown_pattern):
     else:
         print(f"Pattern NOT found, final pattern:\n{pattern}")
     
-        
+def pretty_print(pattern,length):
+    mat = pattern.reshape(length,length)
+    print(mat)
