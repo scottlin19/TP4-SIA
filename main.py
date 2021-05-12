@@ -33,8 +33,10 @@ if exercise == '1':
 
 elif exercise == '2': 
 
+    noise_probability = config["ej2"]["hopfield"]["noise_probability"]
+    pattern_to_add_noise = config["ej2"]["hopfield"]["pattern_to_add_noise"]
     stored_patterns = utils.store_patterns('files/letters.txt')
-    unknown_pattern = utils.get_unknown_pattern(stored_patterns,0.3)
+    unknown_pattern = utils.get_unknown_pattern(stored_patterns, noise_proability)
 
     run_hopfield(stored_patterns,unknown_pattern)
     

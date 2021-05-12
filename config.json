@@ -5,7 +5,7 @@
             "learning_rate": 0.01
         },
         "kohonen": {
-            "epochs_amount": 2, 
+            "epochs_amount": 100, 
             "learning_rate": 0.01,
             "grid_dimension": 4, 
             "radius_constant": false,
@@ -14,6 +14,9 @@
         }
     },
     "ej2":{
-
+        "hopfield": {
+            "noise_probability": 0.3, 
+            "pattern_to_add_noise": "E"
+        }
     }
 }
