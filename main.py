@@ -3,7 +3,6 @@ from kohonen import run_kohonen
 import pandas as pd
 import numpy as np
 import json, csv
-from sklearn.preprocessing import StandardScaler
 from hopfield import run_hopfield
 import utils
 

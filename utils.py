@@ -1,11 +1,13 @@
 import pandas as pd
 import json, csv
 import numpy as np
+from sklearn.preprocessing import StandardScaler
+
 def load_csv(file_path,attributes): 
     
     df = pd.read_csv(file_path, names=attributes,skiprows=[0])
     
-    features = attributes.pop(0)
+    features = attributes[1:]
     x = df.loc[:, features].values
 
     return StandardScaler().fit_transform(x) #scale features 
