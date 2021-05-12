@@ -25,13 +25,10 @@ class Kohonen:
         self.input_dimension = len(training_set[0])
         self.grid_dimension = grid_dimension
         self.learning_rate = learning_rate
-
-        # if(radius[0] == true):
-        #     self.radius = radius[1]
-        # else: 
-        #     self.radius = grid_dimension
-        # self.radius = radius    
-        self.radius = grid_dimension
+        if radius[0]:
+            self.radius = radius[1]
+        else: 
+            self.radius = grid_dimension
         self.neurons = [None] * grid_dimension
         #initialize weights 
         for i in range(self.grid_dimension):

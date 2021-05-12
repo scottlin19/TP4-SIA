@@ -8,9 +8,9 @@
         "kohonen": {
             "epochs_amount": 100, 
             "learning_rate": 0.1,
-            "grid_dimension": 8, 
+            "grid_dimension": 6, 
             "radius_constant": false,
-            "radius_value": 8,
+            "radius_value": 6,
             "use_input_as_weights": true
         }
     },

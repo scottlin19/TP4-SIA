@@ -17,10 +17,11 @@ if exercise == '1':
     if type_ == '1':
         grid_dimension = config["ej1"]["kohonen"]["grid_dimension"]
         radius_value = config["ej1"]["kohonen"]["radius_value"]
+        radius_constant = config["ej1"]["kohonen"]["radius_constant"]
         learning_rate = config["ej1"]["kohonen"]["learning_rate"]
         epochs_amount = config["ej1"]["kohonen"]["epochs_amount"]
         use_input_as_weights = config["ej1"]["kohonen"]["use_input_as_weights"]
-        run_kohonen(training_set, grid_dimension, radius_value, learning_rate, epochs_amount,use_input_as_weights,countries)
+        run_kohonen(training_set, grid_dimension, [radius_constant,radius_value], learning_rate, epochs_amount,use_input_as_weights,countries)
         
     if type_ == '2':
         learning_rate = config["ej1"]["oja"]["learning_rate"]
