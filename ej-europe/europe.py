@@ -54,6 +54,9 @@ def myplot(score,coeff,labels_features=None, labels_points=None):
     plt.ylabel("PC{}".format(2))
     plt.grid()
 
+eigenvalues = model.explained_variance_
+print("Eigenvalues: ")
+print(eigenvalues)
 print(model.explained_variance_ratio_)
 # print(model.components_[0:2, :])
 for i in range(2):
