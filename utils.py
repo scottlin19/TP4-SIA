@@ -22,7 +22,7 @@ def store_patterns(patterns):
     return to_return
 
 
-def get_unknown_pattern(stored_patterns, probability, letter): 
+def get_unknown_pattern(stored_patterns, probability, letter, conserve_pattern): 
      
     if letter == -1: 
         i_x = np.random.randint(0, len(stored_patterns))
@@ -34,14 +34,17 @@ def get_unknown_pattern(stored_patterns, probability, letter):
     print(unknown_pattern)
     for i in range(len(unknown_pattern)): 
         if( probability >= np.random.uniform(0,1)): 
-            # if(unknown_pattern[i] == 1): 
-            #    unknown_pattern[i] = -1
-            # else: 
-            #     unknown_pattern[i] = 1 
-            # count += 1
-            if(unknown_pattern[i] == -1): 
-               unknown_pattern[i] = 1
-               count += 1
+            if conserve_pattern: 
+                if(unknown_pattern[i] == -1): 
+                    unknown_pattern[i] = 1
+                    count += 1
+            else: 
+                if(unknown_pattern[i] == 1): 
+                    unknown_pattern[i] = -1
+                else: 
+                    unknown_pattern[i] = 1 
+                count += 1
+                
     print(unknown_pattern)
     print(f"Modifications: {count}\n")
     return unknown_pattern
