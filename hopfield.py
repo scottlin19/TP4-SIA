@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 class Hopfield: 
     
@@ -13,16 +14,23 @@ class Hopfield:
         states = np.array(unknown_pattern)
         pretty_print(states,5)
         prev_states = np.zeros((25,), dtype=int)
+        energies = []
+        energies.append(self.energy_function(states))
+        print(f"Energy: {energies[-1]}")
         # Iterate until a steady state is reached
         i = 0
         while i < max_iterations and not np.array_equal(states, prev_states):
-         
+            
             prev_states = states
             states = self.activations(states)
-            pretty_print(states,5)
+            energies.append(self.energy_function(states))
+            pretty_print(states,5) 
+            print(f"Energy: {energies[-1]}")
             print(f"Steady State: {np.array_equal(states, prev_states)}")
             i += 1
         
+        plt.plot([i for i in range(len(energies))],energies)
+        plt.ylabel('Energy level')
         # found pattern 
         for stored in self.stored_patterns:
             if np.array_equal(states, stored):
@@ -47,6 +55,14 @@ class Hopfield:
             return 1
         elif n < 0: 
             return -1
+        
+    def energy_function(self, states):
+        h = 0
+        for i in range(self.pattern_dimension):
+            for j in range(i+1,self.pattern_dimension):
+                h += self.w[i][j] * states[i] * states[j]
+        return -h
+         
 
 def run_hopfield(stored_patterns, unknown_pattern,max_iterations): 
     hopfield = Hopfield(stored_patterns)
@@ -57,6 +73,7 @@ def run_hopfield(stored_patterns, unknown_pattern,max_iterations):
     else:
         print(f"Pattern NOT found, final pattern:\n{pattern}")
     # return found,-1
+    plt.show()
     
     
 def pretty_print(pattern,length):

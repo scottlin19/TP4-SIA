@@ -17,9 +17,9 @@
     "ej2":{
         "hopfield": {
             "max_iterations": 20,
-            "noise_probability": 0.3, 
-            "pattern_to_add_noise": "M",
-            "pattern_to_store": ["J","M","K","O"]
+            "noise_probability": 0, 
+            "pattern_to_add_noise": "N",
+            "pattern_to_store": ["J","R","K","N"]
         }
     }
 }
