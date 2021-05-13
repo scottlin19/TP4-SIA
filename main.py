@@ -3,6 +3,7 @@ from kohonen import run_kohonen
 from hopfield import run_hopfield
 import utils
 import json
+
 with open("config.json") as f:
     config = json.load(f) 
               
@@ -30,14 +31,14 @@ if exercise == '1':
         # print(w)
 
 elif exercise == '2': 
-
+    max_iterations = config["ej2"]["hopfield"]["max_iterations"]
     noise_probability = config["ej2"]["hopfield"]["noise_probability"]
     pattern_to_add_noise = config["ej2"]["hopfield"]["pattern_to_add_noise"]
-    file_path = config["ej2"]["hopfield"]["file_path"]
-    stored_patterns = utils.store_patterns(file_path)
+    pattern_to_store = config["ej2"]["hopfield"]["pattern_to_store"] 
+    stored_patterns = utils.store_patterns(pattern_to_store)
     # expected_index = utils.letter_to_index_mapper(pattern_to_add_noise)
     unknown_pattern = utils.get_unknown_pattern(stored_patterns,noise_probability,pattern_to_add_noise)
-    run_hopfield(stored_patterns,unknown_pattern)
+    run_hopfield(stored_patterns,unknown_pattern,max_iterations)
     # found, i = run_hopfield(stored_patterns,unknown_pattern)
     # p,fp,n = 0,0,0
     # for i in range(100):

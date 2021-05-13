@@ -2,6 +2,7 @@ import pandas as pd
 import csv
 import numpy as np
 from sklearn.preprocessing import StandardScaler
+from letters import get_letter_bitmap
 
 def load_csv(file_path,attributes): 
     
@@ -12,38 +13,24 @@ def load_csv(file_path,attributes):
 
     return (df.loc[:,attributes[0]].values,StandardScaler().fit_transform(x)) #scale features 
 
-def store_patterns(file_path): 
-    rows_per_entry = 5
+def store_patterns(patterns): 
+    to_return = []
+    for pattern in patterns:
+        mat = get_letter_bitmap(pattern.upper())
+        if mat != None:
+            to_return.append([i for row in mat for i in row])
+    return to_return
 
-    datafile = open(file_path, 'r')
-    datareader = csv.reader(datafile, delimiter=' ')
-    data = []
-    row_count = 0
-    entry = []
-    for row in datareader:
-        if row_count < rows_per_entry:
-            entry += [int(a) for a in row if a != '']
-        else:
-            row_count = 0
-            data.append(entry)
-            entry = [int(a) for a in row if a != '']
-        row_count += 1
-
-    data.append(entry)
-
-    return data
 
 def get_unknown_pattern(stored_patterns, probability, letter): 
      
     if letter == -1: 
         i_x = np.random.randint(0, len(stored_patterns))
+        unknown_pattern = stored_patterns[i_x].copy()
     else: 
-        i_x = letter_to_index_mapper(letter)
-        if i_x == -1: 
-            print("Invalid letter")
-            exit()
+        mat = get_letter_bitmap(letter.upper())
+        unknown_pattern = [i for row in mat for i in row]
     count = 0
-    unknown_pattern = stored_patterns[i_x].copy()
     print(unknown_pattern)
     for i in range(len(unknown_pattern)): 
         if( probability >= np.random.uniform(0,1)): 
@@ -58,14 +45,3 @@ def get_unknown_pattern(stored_patterns, probability, letter):
     print(unknown_pattern)
     print(f"Modifications: {count}\n")
     return unknown_pattern
-
-def letter_to_index_mapper(letter):
-    if letter == "J":
-        return 0
-    elif letter == "E":
-        return 1
-    elif letter == "K":
-        return 2
-    elif letter == "N":
-        return 3
-    return -1

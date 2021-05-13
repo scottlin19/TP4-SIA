@@ -16,9 +16,10 @@
     },
     "ej2":{
         "hopfield": {
-            "noise_probability": 0.6, 
-            "pattern_to_add_noise": "K",
-            "file_path": "files/letters.txt"
+            "max_iterations": 20,
+            "noise_probability": 0.3, 
+            "pattern_to_add_noise": "M",
+            "pattern_to_store": ["J","M","K","O"]
         }
     }
 }

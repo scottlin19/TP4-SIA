@@ -9,17 +9,19 @@ class Hopfield:
         self.w = np.dot(self.stored_patterns.T, self.stored_patterns) / self.pattern_dimension
         np.fill_diagonal(self.w, 0)
         
-    def train(self,unknown_pattern):
+    def train(self,unknown_pattern,max_iterations):
         states = np.array(unknown_pattern)
         pretty_print(states,5)
         prev_states = np.zeros((25,), dtype=int)
         # Iterate until a steady state is reached
-        while not np.array_equal(states, prev_states):
+        i = 0
+        while i < max_iterations and not np.array_equal(states, prev_states):
          
             prev_states = states
             states = self.activations(states)
             pretty_print(states,5)
             print(f"Steady State: {np.array_equal(states, prev_states)}")
+            i += 1
         
         # found pattern 
         for stored in self.stored_patterns:
@@ -46,9 +48,9 @@ class Hopfield:
         elif n < 0: 
             return -1
 
-def run_hopfield(stored_patterns, unknown_pattern): 
+def run_hopfield(stored_patterns, unknown_pattern,max_iterations): 
     hopfield = Hopfield(stored_patterns)
-    found, pattern = hopfield.train(unknown_pattern) 
+    found, pattern = hopfield.train(unknown_pattern,max_iterations) 
     if found: 
         print(f"Pattern was found:\n{pattern}")
         # return found,stored_patterns.index(pattern.tolist())
