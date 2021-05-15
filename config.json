@@ -20,7 +20,7 @@
             "noise_probability": 0.2,
             "conserve_pattern": false, 
             "pattern_to_add_noise": "N",
-            "pattern_to_store": ["J","R","K","N"]
+            "pattern_to_store": ["J","E","K","N"]
         }
     }
 }

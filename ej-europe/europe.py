@@ -36,9 +36,7 @@ def myplot(score,coeff,labels_features=None, labels_points=None):
     xs = score[:,0]
     ys = score[:,1]
     n = coeff.shape[0]
-    scalex = 1.0/(xs.max() - xs.min())
-    scaley = 1.0/(ys.max() - ys.min())
-    plt.scatter(xs * scalex,ys * scaley, c = ys)
+    plt.scatter(xs,ys, c = ys)
     for i in range(n):
         plt.arrow(0, 0, coeff[i,0], coeff[i,1],color = 'c',alpha = 0.5)
         if labels_features is None:
@@ -47,9 +45,9 @@ def myplot(score,coeff,labels_features=None, labels_points=None):
             plt.text(coeff[i,0]* 1.15, coeff[i,1] * 1.15, labels_features[i], color = 'c', ha = 'center', va = 'center')
     if labels_points != None:
         for i in range(len(xs)):
-            plt.text(xs[i] * scalex * 1.15, ys[i] * scaley * 1.15,labels_points[i], color = 'm', ha = 'center', va = 'center')
-    plt.xlim(-1,1)
-    plt.ylim(-1,1)
+            # plt.text(xs[i] * scalex * 1.15, ys[i] * scaley * 1.15,labels_points[i], color = 'm', ha = 'center', va = 'center')
+            plt.text(xs[i] * 1.15, ys[i] * 1.15,labels_points[i], color = 'm', ha = 'center', va = 'center')
+  
     plt.xlabel("PC{}".format(1))
     plt.ylabel("PC{}".format(2))
     plt.grid()
@@ -58,7 +56,6 @@ eigenvalues = model.explained_variance_
 print("Eigenvalues: ")
 print(eigenvalues)
 print(model.explained_variance_ratio_)
-# print(model.components_[0:2, :])
 for i in range(2):
     print(f"PC{i+1}")
     for j in range(len(model.components_[i])):

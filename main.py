@@ -3,6 +3,7 @@ from kohonen import run_kohonen
 from hopfield import run_hopfield
 import utils
 import json
+import numpy as np
 
 with open("config.json") as f:
     config = json.load(f) 
@@ -39,7 +40,9 @@ elif exercise == '2':
     stored_patterns = utils.store_patterns(pattern_to_store)
     # expected_index = utils.letter_to_index_mapper(pattern_to_add_noise)
     unknown_pattern = utils.get_unknown_pattern(stored_patterns,noise_probability,pattern_to_add_noise, conserve_pattern)
+    utils.are_orthogonal(stored_patterns,pattern_to_store)
     run_hopfield(stored_patterns,unknown_pattern,max_iterations)
+    
     # found, i = run_hopfield(stored_patterns,unknown_pattern)
     # p,fp,n = 0,0,0
     # for i in range(100):
@@ -55,5 +58,4 @@ elif exercise == '2':
     # print(f"After 100 iterations:\npositives: {p}\t false positives: {fp}\t negatives: {n} ")
 else : 
     print("Invalid Input") 
-    exit() 
-
+    exit()

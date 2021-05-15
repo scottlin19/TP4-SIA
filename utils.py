@@ -31,7 +31,6 @@ def get_unknown_pattern(stored_patterns, probability, letter, conserve_pattern):
         mat = get_letter_bitmap(letter.upper())
         unknown_pattern = [i for row in mat for i in row]
     count = 0
-    print(unknown_pattern)
     for i in range(len(unknown_pattern)): 
         if( probability >= np.random.uniform(0,1)): 
             if conserve_pattern: 
@@ -45,6 +44,12 @@ def get_unknown_pattern(stored_patterns, probability, letter, conserve_pattern):
                     unknown_pattern[i] = 1 
                 count += 1
                 
-    print(unknown_pattern)
-    print(f"Modifications: {count}\n")
+    print(f"Unknown patterns: {unknown_pattern}")
+    print(f"Total modifications: {count}\n")
     return unknown_pattern
+
+def are_orthogonal(stored_patterns, letters_to_store): 
+    print("Patterns orthogonality:")
+    for i in range(len(stored_patterns)):
+        for j in range(i+1,len(stored_patterns)):
+            print(f"{letters_to_store[i]} & {letters_to_store[j]}: {np.inner(stored_patterns[i], stored_patterns[j])}") 
