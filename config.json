@@ -6,11 +6,11 @@
             "learning_rate": 0.0001
         },
         "kohonen": {
-            "epochs_amount": 100, 
-            "learning_rate": 0.01,
+            "epochs_amount": 1000, 
+            "learning_rate": 0.1,
             "grid_dimension": 4, 
             "radius_constant": false,
-            "radius_value": 10,
+            "radius_value": 4,
             "use_input_as_weights": true
         }
     },
@@ -19,7 +19,7 @@
             "max_iterations": 20,
             "noise_probability": 0.2,
             "conserve_pattern": false, 
-            "pattern_to_add_noise": "N",
+            "pattern_to_add_noise": "E",
             "pattern_to_store": ["J","E","K","N"]
         }
     }

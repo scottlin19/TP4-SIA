@@ -31,6 +31,7 @@ class Hopfield:
         
         plt.plot([i for i in range(len(energies))],energies)
         plt.ylabel('Energy level')
+        plt.xlabel('Iterations')
         # found pattern 
         for stored in self.stored_patterns:
             if np.array_equal(states, stored):
