@@ -77,4 +77,5 @@ $> python3 main.py
             "pattern_to_store": ["J","E","K","N"]
         }
     }
-}```
+}
+```
