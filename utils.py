@@ -45,7 +45,7 @@ def get_unknown_pattern(stored_patterns, probability, letter, conserve_pattern):
                 count += 1
                 
     print(f"Unknown patterns: {unknown_pattern}")
-    print(f"Total modifications: {count}\n")
+    print(f"Total modifications after applying noise: {count}\n")
     return unknown_pattern
 
 def are_orthogonal(stored_patterns, letters_to_store): 

@@ -71,9 +71,11 @@ class Kohonen:
         fig, (ax1,ax2,ax3) = plt.subplots(1,3)
         aux = np.arange(self.grid_dimension)
         im1,cbar1 = self.heatmap(activations,ax1,"Entries amount","Entries per neuron",aux,aux,cmap="magma_r")
-        print(activations)
+        print(f"Matrix of activations per neuron for all epochs:\n {activations}")
+        
         im2,cbar2 = self.heatmap(umatrix,ax2,"Average euclidian distance","Average euclidian distance per neuron",aux,aux,cmap="binary")
         last_activations = np.zeros((self.grid_dimension, self.grid_dimension))
+        
         to_return = []
         for entry in self.training_set:
             (i,j,winner) = self.get_winner_neuron(entry)

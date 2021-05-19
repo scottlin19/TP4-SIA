@@ -49,6 +49,11 @@ Para ejecutar el programa, correr el siguiente comando en consola:
 $> python3 main.py
 ```
 
+Para ejecutar el ejercicio de componentes principales realizado con la librería Sklearn, correr el siguiente comando en consola:
+```bash
+$> python3 ./ej-europe/europe.py
+```
+
 ### Ejemplo de configuración
 
 `config.json`:

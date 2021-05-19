@@ -32,7 +32,7 @@ class OjaPerceptron:
 def run_oja(training_set, learning_rate, epochs_amount,countries):
     oja = OjaPerceptron(training_set, learning_rate)
     pca1 = oja.train(epochs_amount)
-    print(f"Oja outputed PCA1: {pca1}")
+    print(f"Oja eigenvector that builds PC1:\n {pca1}")
     countries_pca1 = [np.inner(pca1,training_set[i]) for i in range(len(training_set))]
     libray_pca1 = [0.12487390183337656,-0.5005058583604993,0.4065181548118897,-0.4828733253002008,0.18811161613179747,-0.475703553912758,0.27165582007504635]
     countries_library_pca1 = [np.inner(libray_pca1,training_set[i]) for i in range(len(training_set))]
